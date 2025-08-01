@@ -5,7 +5,6 @@ Easily write expressive tests using `Given`, `When`, `Then`, `Feature`, and `Sce
 
 Ideal for teams that want readable, business-aligned test reports *without* introducing extra complexity.
 
-
 ## ✨ Features
 
 - ✅ Human-readable BDD syntax (`given`, `when`, `then`, `and`, `but`)
