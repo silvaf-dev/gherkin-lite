@@ -1,0 +1,26 @@
+{
+  "name": "gherkin-lite",
+  "version": "1.0.0",
+  "description": "Gherkin-style test syntax helpers for Playwright",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "playwright",
+    "gherkin",
+    "bdd",
+    "testing",
+    "dsl"
+  ],
+  "author": "Federico Silva",
+  "license": "MIT",
+  "peerDependencies": {
+    "@playwright/test": "^1.44.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.121",
+    "typescript": "^5.2.0"
+  }
+}
