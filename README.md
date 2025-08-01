@@ -99,6 +99,24 @@ npm install
 npm run build
 ```
 
+## 🤔 Why I Built This
+
+I like the clarity of Gherkin syntax (`Given–When–Then`), but not the overhead of Cucumber.
+
+In my experience:
+- Business people almost never write tests, even if you give them `.feature` files.
+- Adding a whole Cucumber layer to a Playwright project often creates more friction than value.
+- Most teams just want **readable test reports** that map cleanly to user stories.
+
+So instead of adding Cucumber, I added semantics to what I already had:  
+Playwright + `test.step()` + a little structure.
+
+**`gherkin-lite`** gives you the BDD clarity — `given`, `when`, `then`, `scenario`, `feature` — without any extra tooling.  
+It works out of the box with Playwright, generates clean reports, and is fully TypeScript-friendly.
+
+No plugins. No DSL parser. No `.feature` files.  
+Just simple structure that makes your tests easier to read, debug, and explain to stakeholders.
+
 ## 📄 License
 
 MIT © [Federico Silva]
