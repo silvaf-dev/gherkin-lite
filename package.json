@@ -2,8 +2,8 @@
   "name": "gherkin-lite",
   "version": "1.0.0",
   "description": "Gherkin-style test syntax helpers for Playwright",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/gherkinSyntax.js",
+  "types": "dist/gherkinSyntax.d.ts",
   "scripts": {
     "build": "tsc"
   },
