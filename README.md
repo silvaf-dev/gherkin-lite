@@ -14,7 +14,7 @@ Ideal for teams that want readable, business-aligned test reports *without* intr
 - ✅ Zero runtime dependencies
 - ✅ Works with JavaScript and TypeScript
 
-![Example test report with Gherkin steps](./images/report.png)
+![Example test report with Gherkin steps](img/report.png)
 
 ## 📦 Installation
 
