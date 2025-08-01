@@ -3,6 +3,9 @@
 A lightweight, TypeScript-first Gherkin-style DSL for [Playwright](https://playwright.dev/).  
 Easily write expressive tests using `Given`, `When`, `Then`, `Feature`, and `Scenario` — no `.feature` files or Cucumber required.
 
+Ideal for teams that want readable, business-aligned test reports *without* introducing extra complexity.
+
+
 ## ✨ Features
 
 - ✅ Human-readable BDD syntax (`given`, `when`, `then`, `and`, `but`)
