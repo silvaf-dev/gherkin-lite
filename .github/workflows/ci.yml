@@ -22,5 +22,8 @@ jobs:
       - name: 🔨 Build project
         run: npm run build
 
+      - name: 📦 Install Playwright
+        run: npm install @playwright/test@latest 
+
       - name: 🧪 Run Playwright tests
-        run: npm install --no-save @playwright/test && npx playwright test
+        run: npx playwright test
