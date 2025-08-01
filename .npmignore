@@ -6,3 +6,4 @@ package-lock.json
 tests
 test-results
 e2e
+.github
