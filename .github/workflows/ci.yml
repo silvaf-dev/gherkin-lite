@@ -23,4 +23,4 @@ jobs:
         run: npm run build
 
       - name: 🧪 Run Playwright tests
-        run: npx playwright test
+        run: npm install --no-save @playwright/test && npx playwright test
