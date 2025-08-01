@@ -14,6 +14,8 @@ Ideal for teams that want readable, business-aligned test reports *without* intr
 - ✅ Zero runtime dependencies
 - ✅ Works with JavaScript and TypeScript
 
+![Example test report with Gherkin steps](./images/report.png)
+
 ## 📦 Installation
 
 ```bash
@@ -27,17 +29,17 @@ npm install gherkin-lite
 ### Basic Example
 
 ```ts
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { given, when, then, feature, scenario } from 'gherkin-lite';
 
-scenario('Wikipedia search', () => {
+scenario('Wikipedia search', async () => {
   feature('search "Gherkin" on Wikipedia', async ({ page }) => {
     await given('the user is on the Wikipedia homepage', async () => {
       await page.goto('https://en.wikipedia.org');
     });
 
     await when('the user searches for "Gherkin"', async () => {
-      await page.getByPlaceholder('Search Wikipedia').fill('Gherkin');
+      await page.getByPlaceholder('Search Wikipedia').first().fill('Gherkin');
       await page.getByRole('button', { name: 'Search' }).click();
     });
 
@@ -54,27 +56,27 @@ scenario('Wikipedia search', () => {
 import { feature, scenarioOutline, given, when, then } from 'gherkin-lite';
 
 scenarioOutline(
-  'Wikipedia search returns correct article',
-  [
-    { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
-    { term: 'Playwright', expectedPath: '/wiki/Playwright' }
-  ],
-  ({ term, expectedPath }) => {
-    feature(`search "${term}"`, async ({ page }) => {
-      await given('the user is on the Wikipedia homepage', async () => {
-        await page.goto('https://en.wikipedia.org');
-      });
+    'Wikipedia search returns correct article',
+    [
+        { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
+        { term: 'Playwright', expectedPath: '/wiki/Playwright' }
+    ],
+    async ({ term, expectedPath }) => {
+        feature(`search "${term}"`, async ({ page }) => {
+            await given('the user is on the Wikipedia homepage', async () => {
+                await page.goto('https://en.wikipedia.org');
+            });
 
-      await when(`the user searches for "${term}"`, async () => {
-        await page.getByPlaceholder('Search Wikipedia').fill(term);
-        await page.getByRole('button', { name: 'Search' }).click();
-      });
+            await when(`the user searches for "${term}"`, async () => {
+                await page.getByPlaceholder('Search Wikipedia').first().fill(term);
+                await page.getByRole('button', { name: 'Search' }).click();
+            });
 
-      await then(`the user is taken to ${expectedPath}`, async () => {
-        await expect(page).toHaveURL('https://en.wikipedia.org' + expectedPath);
-      });
-    });
-  }
+            await then(`the user is taken to ${expectedPath}`, async () => {
+                await expect(page).toHaveURL('https://en.wikipedia.org' + expectedPath);
+            });
+        });
+    }
 );
 ```
 

@@ -2,3 +2,7 @@ src
 node_modules
 package-lock.json
 .gitignore
+*.spec.ts
+tests
+test-results
+e2e
