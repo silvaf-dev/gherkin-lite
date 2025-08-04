@@ -45,38 +45,28 @@ feature('search "Gherkin" on Wikipedia', async () => {
     await then('they land on the Gherkin article', async () => {
       await expect(page).toHaveURL(/\/wiki\/Gherkin/);
     });
-  });
+  }, { tags: ['@wikipedia'] });
 });
 ```
+**🔍 Filter tagged tests**
+You can run specific tagged scenarios using Playwright’s ``--grep`` option:
+``npx playwright test --grep @wikipedia``
 
-### Scenario Outline (Parameterized)
+### Scenario Outline
+``gherkin-lite`` does not include a built-in `scenarioOutline` function. Instead, you can achieve the same effect using a loop over examples:
 
 ```ts
-import { feature, scenarioOutline, given, when, then } from 'gherkin-lite';
+const examples = [
+  { a: 1, b: 2, expected: 3 },
+  { a: 10, b: 5, expected: 15 }
+];
 
-feature('Wikipedia search returns correct article', async () => {
-  scenarioOutlineWithContext(
-    'search term yields expected article',
-    [
-      { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
-      { term: 'Playwright', expectedPath: '/wiki/Playwright' }
-    ],
-    async ({ term, expectedPath }, { page }) => {
-      await given('the user is on the Wikipedia homepage', async () => {
-        await page.goto('https://en.wikipedia.org');
-      });
-
-      await when(`the user searches for "${term}"`, async () => {
-        await page.getByPlaceholder('Search Wikipedia').first().fill(term);
-        await page.getByRole('button', { name: 'Search' }).click();
-      });
-
-      await then(`the user is taken to ${expectedPath}`, async () => {
-        await expect(page).toHaveURL('https://en.wikipedia.org' + expectedPath);
-      });
-    }
-  );
-});
+for (const { a, b, expected } of examples) {
+  scenario(`adds ${a} + ${b} = ${expected}`, async () => {
+    const result = a + b;
+    expect(result).toBe(expected);
+  });
+}
 ```
 
 ## 🧱 API Reference
@@ -90,8 +80,6 @@ feature('Wikipedia search returns correct article', async () => {
 | `but(description, fn)`                     | Optional exception step                                 |
 | `feature(description, fn)`                 | Defines a group of related scenarios (a "Feature")      |
 | `scenario(description, fn)`                | Defines an individual test scenario                     |
-| `scenarioOutline(description, examples[], fn)` | Defines multiple data-driven scenarios without Playwright fixtures |
-| `scenarioOutlineWithContext(description, examples[], fn)` | Defines multiple scenarios with access to Playwright's `page` |
 
 ## 🛠 Development
 

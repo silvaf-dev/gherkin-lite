@@ -1,43 +1,31 @@
 import { expect } from '@playwright/test';
-import { given, when, then, feature, scenario, scenarioOutline } from '../dist/gherkinSyntax.js';
+import { given, when, then, feature, scenario } from '../dist/gherkinSyntax.js';
 
 feature('addition of two numbers', async () => {
-  scenario('adds two numbers', async () => {
-    let result = 0;
+  const examples = [
+    { a: 1, b: 2, expected: 3 },
+    { a: 10, b: 5, expected: 15 }
+  ];
 
-    await given('two numbers 2 and 3', async () => {
-      result = 2 + 3;
-    });
+  for (const { a, b, expected } of examples) {
+    scenario(
+      `adds ${a} and ${b} to get ${expected}`,
+      async () => {
+        let result = 0;
 
-    await when('they are added', async () => {
-      // already added above
-    });
+        await given(`two numbers: ${a} and ${b}`, async () => {
+          result = a + b;
+        });
 
-    await then('the result is 5', async () => {
-      expect(result).toBe(5);
-    });
-  });
+        await when('they are added', async () => {
+          // already added
+        });
 
-  scenarioOutline(
-    'addition yields correct result',
-    [
-      { a: 1, b: 2, expected: 3 },
-      { a: 10, b: 5, expected: 15 }
-    ],
-    async ({ a, b, expected }) => {
-      let result = 0;
-
-      await given(`two numbers: ${a} and ${b}`, async () => {
-        result = a + b;
-      });
-
-      await when('they are added', async () => {
-        // already done in given
-      });
-
-      await then(`the result is ${expected}`, async () => {
-        expect(result).toBe(expected);
-      });
-    }
-  );
+        await then(`the result is ${expected}`, async () => {
+          expect(result).toBe(expected);
+        });
+      },
+      { tags: ['@math', '@outline'] }
+    );
+  }
 });
