@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { given, when, then, feature, scenario, scenarioOutline } from '../dist/gherkinSyntax.js';
+import { given, when, then, feature, scenario, scenarioOutlineWithContext } from '../dist/gherkinSyntax.js';
 
 feature('Wikipedia search returns correct article', async () => {
     scenario('Wikipedia search', async ({ page }) => {
@@ -17,7 +17,7 @@ feature('Wikipedia search returns correct article', async () => {
         });
     });
 
-    scenarioOutline(
+    scenarioOutlineWithContext(
         'search term yields expected article',
         [
             { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
