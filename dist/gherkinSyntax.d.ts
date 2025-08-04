@@ -99,7 +99,9 @@ export declare const feature: (description: string, fn: () => void) => void;
  */
 export declare const scenario: (description: string, fn: (context?: any) => Promise<void>) => void;
 /**
- * Defines a BDD-style "Scenario Outline" that runs once per example.
+ * Defines a BDD-style "Scenario Outline" that runs once per example, without Playwright context.
+ *
+ * Use `scenarioOutlineWithContext` if `page` is needed.
  *
  * @template T - The shape of the example data.
  *
@@ -130,7 +132,7 @@ export declare function scenarioOutline<T>(title: string, examples: T[], fn: (ex
  *        The test function that receives an example and the Playwright context.
  *
  * @example
- * scenarioOutlineWithPage(
+ * scenarioOutlineWithContext(
  *   'Wikipedia search',
  *   [
  *     { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
