@@ -1,8 +1,8 @@
 import { expect } from '@playwright/test';
 import { given, when, then, feature, scenario } from '../dist/gherkinSyntax.js';
 
-scenario('Wikipedia search', async () => {
-  feature('search "Gherkin" on Wikipedia', async ({ page }) => {
+feature('search "Gherkin" on Wikipedia', async () => {
+  scenario('Wikipedia search', async ({ page }) => {
     await given('the user is on the Wikipedia homepage', async () => {
       await page.goto('https://en.wikipedia.org');
     });
