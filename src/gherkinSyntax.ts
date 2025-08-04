@@ -122,7 +122,9 @@ export const scenario = (description: string, fn: (context?: any) => Promise<voi
 };
 
 /**
- * Defines a BDD-style "Scenario Outline" that runs once per example.
+ * Defines a BDD-style "Scenario Outline" that runs once per example, without Playwright context.
+ * 
+ * Use `scenarioOutlineWithContext` if `page` is needed.
  *
  * @template T - The shape of the example data.
  *
@@ -167,7 +169,7 @@ export function scenarioOutline<T>(
  *        The test function that receives an example and the Playwright context.
  *
  * @example
- * scenarioOutlineWithPage(
+ * scenarioOutlineWithContext(
  *   'Wikipedia search',
  *   [
  *     { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
