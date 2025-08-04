@@ -55,7 +55,7 @@ feature('search "Gherkin" on Wikipedia', async () => {
 import { feature, scenarioOutline, given, when, then } from 'gherkin-lite';
 
 feature('Wikipedia search returns correct article', async () => {
-  scenarioOutline(
+  scenarioOutlineWithContext(
     'search term yields expected article',
     [
       { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
@@ -81,16 +81,17 @@ feature('Wikipedia search returns correct article', async () => {
 
 ## 🧱 API Reference
 
-| Function                  | Description                                   |
-|---------------------------|-----------------------------------------------|
-| `given(description, fn)`  | Marks a "Given" step in the test              |
-| `when(description, fn)`   | Marks a "When" step                           |
-| `then(description, fn)`   | Marks a "Then" step                           |
-| `and(description, fn)`    | Optional continuation step                    |
-| `but(description, fn)`    | Optional exception step                       |
-| `feature(description, fn)`| Defines a single feature test                 |
-| `scenario(description, fn)`| Defines a grouped test scenario              |
-| `scenarioOutline(description, examples[], fn)` | Defines multiple examples for a scenario |
+| Function                                   | Description                                             |
+|--------------------------------------------|---------------------------------------------------------|
+| `given(description, fn)`                   | Marks a "Given" step in the test                        |
+| `when(description, fn)`                    | Marks a "When" step                                     |
+| `then(description, fn)`                    | Marks a "Then" step                                     |
+| `and(description, fn)`                     | Optional continuation step                              |
+| `but(description, fn)`                     | Optional exception step                                 |
+| `feature(description, fn)`                 | Defines a group of related scenarios (a "Feature")      |
+| `scenario(description, fn)`                | Defines an individual test scenario                     |
+| `scenarioOutline(description, examples[], fn)` | Defines multiple data-driven scenarios without Playwright fixtures |
+| `scenarioOutlineWithContext(description, examples[], fn)` | Defines multiple scenarios with access to Playwright's `page` |
 
 ## 🛠 Development
 
