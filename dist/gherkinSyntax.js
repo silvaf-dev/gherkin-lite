@@ -94,12 +94,29 @@ const feature = (description, fn) => {
 exports.feature = feature;
 /**
  * Defines a BDD-style "Scenario" block.
+ * Wraps a Playwright test using the `Scenario:` prefix.
+ *
+ * The provided async function receives the Playwright test context
+ * (e.g., `{ page }`) and should contain one or more `given`, `when`, `then`, etc. steps.
+ *
+ * @param description - A descriptive title for the scenario.
+ * @param fn - An async function that defines the test logic using BDD-style steps.
  *
  * @example
- * scenario('User logs in successfully', async () => {
- *   await given(...);
- *   await when(...);
- *   await then(...);
+ * scenario('User logs in successfully', async ({ page }) => {
+ *   await given('the user is on the login page', async () => {
+ *     await page.goto('/login');
+ *   });
+ *
+ *   await when('the user submits valid credentials', async () => {
+ *     await page.fill('#username', 'admin');
+ *     await page.fill('#password', 'password123');
+ *     await page.click('text=Login');
+ *   });
+ *
+ *   await then('the user is redirected to the dashboard', async () => {
+ *     await expect(page).toHaveURL('/dashboard');
+ *   });
  * });
  */
 const scenario = (description, fn) => {
