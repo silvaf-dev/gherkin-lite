@@ -5,6 +5,8 @@ Easily write expressive tests using `Given`, `When`, `Then`, `Feature`, and `Sce
 
 Ideal for teams that want readable, business-aligned test reports *without* introducing extra complexity.
 
+> Check out the official [Cucumber reference](https://cucumber.io/docs/gherkin/reference/) for good practices in writing Gherkin.
+
 ## ✨ Features
 
 - ✅ Human-readable BDD syntax (`given`, `when`, `then`, `and`, `but`)
