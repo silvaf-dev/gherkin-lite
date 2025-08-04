@@ -122,9 +122,9 @@ export const scenario = (description: string, fn: (context?: any) => Promise<voi
 };
 
 /**
- * Defines a BDD-style "Scenario Outline" that runs once per example, without Playwright context.
+ * Defines a BDD-style "Scenario Outline" that runs once per example, without Playwright context. It will not open any browser.
  * 
- * Use `scenarioOutlineWithContext` if `page` is needed.
+ * Use `scenarioOutlineWithContext` instead if context (e.g. `page`) is needed.
  *
  * @template T - The shape of the example data.
  *
@@ -157,9 +157,9 @@ export function scenarioOutline<T>(
 }
 
 /**
- * Defines a BDD-style "Scenario Outline" with access to the Playwright `page` fixture.
+ * Defines a BDD-style "Scenario Outline" with access to the Playwright `page`, `context` and `browser` fixtures.
  * 
- * This function generates one test per example, automatically injecting the `page` context.
+ * This function generates one test per example, automatically injecting the Playwright context.
  *
  * @template T - The shape of the example input data.
  *
@@ -186,15 +186,19 @@ export function scenarioOutline<T>(
 export const scenarioOutlineWithContext = <T extends Record<string, any>>(
   title: string,
   examples: T[],
-  fn: (example: T, context: { page: import('@playwright/test').Page }) => Promise<void>
+  fn: (example: T, context: {
+    page: import('@playwright/test').Page,
+    context: import('@playwright/test').BrowserContext,
+    browser: import('@playwright/test').Browser
+  }) => Promise<void>
 ) => {
   for (const example of examples) {
     const testName = Object.entries(example ?? {})
       .map(([k, v]) => `${k}=${String(v)}`)
       .join(', ');
 
-    test(`Scenario Outline: ${title} | ${testName}`, async ({ page }) => {
-      await fn(example, { page });
+    test(`Scenario Outline: ${title} | ${testName}`, async ({ page, context, browser }) => {
+      await fn(example, { page, context, browser });
     });
   }
 };
