@@ -2,12 +2,15 @@ import { expect } from '@playwright/test';
 import { given, when, then, feature, scenario, scenarioOutlineWithContext } from '../dist/gherkinSyntax.js';
 
 feature('Wikipedia search returns correct article', async () => {
-    scenario('Wikipedia search', async ({ page }) => {
-        await given('the user is on the Wikipedia homepage', async () => {
-            await page.goto('https://en.wikipedia.org');
+    scenario('Wikipedia search', async ({ page, context, browser }) => {
+        await given('a new page is available from the test context', async () => {
+            expect(browser).toBeDefined();
+            expect(context).toBeDefined();
+            expect(page).toBeDefined();
         });
 
-        await when('the user searches for "Gherkin"', async () => {
+        await when('the user searches for "Gherkin" on Wikipedia', async () => {
+            await page.goto('https://en.wikipedia.org');
             await page.getByPlaceholder('Search Wikipedia').first().fill('Gherkin');
             await page.getByRole('button', { name: 'Search' }).click();
         });
@@ -23,12 +26,15 @@ feature('Wikipedia search returns correct article', async () => {
             { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
             { term: 'Playwright', expectedPath: '/wiki/Playwright' }
         ],
-        async ({ term, expectedPath }, { page }) => {
-            await given('the user is on the Wikipedia homepage', async () => {
-                await page.goto('https://en.wikipedia.org');
+        async ({ term, expectedPath }, { page, context, browser }) => {
+            await given('a fresh browser context and a page are available', async () => {
+                expect(browser).toBeDefined();
+                expect(context).toBeDefined();
+                expect(page).toBeDefined();
             });
 
-            await when(`the user searches for "${term}"`, async () => {
+            await when(`the user navigates to Wikipedia and searches for "${term}"`, async () => {
+                await page.goto('https://en.wikipedia.org');
                 await page.getByPlaceholder('Search Wikipedia').first().fill(term);
                 await page.getByRole('button', { name: 'Search' }).click();
             });
