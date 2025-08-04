@@ -8,12 +8,14 @@ Ideal for teams that want readable, business-aligned test reports *without* intr
 ## ✨ Features
 
 - ✅ Human-readable BDD syntax (`given`, `when`, `then`, `and`, `but`)
-- ✅ `feature`, `scenario`, and `scenarioOutline` helpers
+- ✅ `feature` and `scenario` helpers
 - ✅ Type-safe and compatible with `@playwright/test`
 - ✅ Zero runtime dependencies
 - ✅ Works with JavaScript and TypeScript
 
 ![Example test report with Gherkin steps](img/report.png)
+
+> 💡 Tip: Run tests with `npx playwright test --reporter=html` and open the report with `npx playwright show-report` to view detailed step-by-step output.
 
 ## 📦 Installation
 
