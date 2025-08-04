@@ -1,47 +1,33 @@
 import { expect } from '@playwright/test';
-import { given, when, then, feature, scenario, scenarioOutlineWithContext } from '../dist/gherkinSyntax.js';
+import { given, when, then, feature, scenario } from '../dist/gherkinSyntax.js';
 
 feature('Wikipedia search returns correct article', async () => {
-    scenario('Wikipedia search', async ({ page, context, browser }) => {
-        await given('a new page is available from the test context', async () => {
-            expect(browser).toBeDefined();
-            expect(context).toBeDefined();
-            expect(page).toBeDefined();
-        });
+    const examples = [
+        { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
+        { term: 'Playwright', expectedPath: '/wiki/Playwright' }
+    ];
 
-        await when('the user searches for "Gherkin" on Wikipedia', async () => {
-            await page.goto('https://en.wikipedia.org');
-            await page.getByPlaceholder('Search Wikipedia').first().fill('Gherkin');
-            await page.getByRole('button', { name: 'Search' }).click();
-        });
+    for (const { term, expectedPath } of examples) {
+        scenario(
+            `search term "${term}" yields expected article`,
+            async ({ page, context, browser }) => {
+                await given('a fresh browser context and a page are available', async () => {
+                    expect(browser).toBeDefined();
+                    expect(context).toBeDefined();
+                    expect(page).toBeDefined();
+                });
 
-        await then('they land on the Gherkin article', async () => {
-            await expect(page).toHaveURL(/\/wiki\/Gherkin/);
-        });
-    });
+                await when(`the user navigates to Wikipedia and searches for "${term}"`, async () => {
+                    await page.goto('https://en.wikipedia.org');
+                    await page.getByPlaceholder('Search Wikipedia').first().fill(term);
+                    await page.getByRole('button', { name: 'Search' }).click();
+                });
 
-    scenarioOutlineWithContext(
-        'search term yields expected article',
-        [
-            { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
-            { term: 'Playwright', expectedPath: '/wiki/Playwright' }
-        ],
-        async ({ term, expectedPath }, { page, context, browser }) => {
-            await given('a fresh browser context and a page are available', async () => {
-                expect(browser).toBeDefined();
-                expect(context).toBeDefined();
-                expect(page).toBeDefined();
-            });
-
-            await when(`the user navigates to Wikipedia and searches for "${term}"`, async () => {
-                await page.goto('https://en.wikipedia.org');
-                await page.getByPlaceholder('Search Wikipedia').first().fill(term);
-                await page.getByRole('button', { name: 'Search' }).click();
-            });
-
-            await then(`the user is taken to ${expectedPath}`, async () => {
-                await expect(page).toHaveURL('https://en.wikipedia.org' + expectedPath);
-            });
-        }
-    );
+                await then(`the user is taken to ${expectedPath}`, async () => {
+                    await expect(page).toHaveURL('https://en.wikipedia.org' + expectedPath);
+                });
+            },
+            { tags: ['@search', '@wikipedia'] }
+        );
+    }
 });
