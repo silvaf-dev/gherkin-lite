@@ -73,6 +73,30 @@ for (const { a, b, expected } of examples) {
 }
 ```
 
+***📦 Sharing context between steps**
+To persist data between `given`, `when`, and `then` steps inside a `scenario`, use a plain object as shared context.
+
+```ts
+scenario('adding two numbers with context', async ({ }) => {
+  const ctx: any = {};
+
+  await given('two numbers', async () => {
+    ctx.a = 5;
+    ctx.b = 7;
+  });
+
+  await when('they are added together', async () => {
+    ctx.result = ctx.a + ctx.b;
+  });
+
+  await then('the result should be correct', async () => {
+    if (ctx.result !== 12) {
+      throw new Error(`Expected 12, but got ${ctx.result}`);
+    }
+  });
+});
+```
+
 ## 🧱 API Reference
 
 | Function                                   | Description                                                        |
