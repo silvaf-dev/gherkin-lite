@@ -43,5 +43,5 @@ feature('Wikipedia search returns correct article', async () => {
         });
     });
 
-    scenario.todo('Todo test example');
+    scenario.todo('Todo test example'); 
 });
