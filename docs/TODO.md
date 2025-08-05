@@ -10,12 +10,12 @@ This document outlines planned features, improvements, and architectural conside
   Allow defining a `background(...)` block within a `feature(...)`.  
   It should execute before each `scenario(...)` or `scenarioOutline(...)`, and after any Playwright `beforeEach` hooks.
 
-- [ ] **Add `.only` and `.skip` support**  
+- [x] **Add `.only` and `.skip` support**  
   Enable `.only` and `.skip` variants for:
   - `scenario.only(...)`
   - `scenario.skip(...)`
 
-- [ ] **Support `.todo(...)` for incomplete tests**  
+- [x] **Support `.todo(...)` for incomplete tests**  
   Let users declare placeholders for future scenarios:
   ```ts
   scenario.todo('should support forgot password flow');

@@ -70,16 +70,42 @@ export declare const but: (description: string, fn: () => Promise<void>) => Prom
  * });
  */
 export declare const feature: (description: string, fn: () => void) => void;
+type ScenarioCallback = (context?: any) => Promise<void>;
+type ScenarioOptions = {
+    tags?: string[];
+};
+type ScenarioFn = {
+    (description: string, fn: ScenarioCallback, options?: ScenarioOptions): void;
+    skip: (description: string, fn: ScenarioCallback, options?: ScenarioOptions) => void;
+    only: (description: string, fn: ScenarioCallback, options?: ScenarioOptions) => void;
+    todo: (description: string) => void;
+};
 /**
- * Defines a BDD-style "Scenario" test with optional tags.
+ * Defines a BDD-style **Scenario** within a `feature()` block.
+ *
+ * Wraps Playwright's `test()` with Gherkin-style readability and optional tags.
  *
  * @param description - A descriptive title for the scenario.
- * @param fn - The async test function, optionally receiving the Playwright context.
- * @param options - Optional config like `tags` (array of strings).
+ * @param fn - The async test function. Receives Playwright context (`{ page, browser, context }`).
+ * @param options - Optional scenario options like `tags`.
  *
  * @example
  * scenario('User logs in', async ({ page }) => {
  *   await page.goto('/login');
  * }, { tags: ['@smoke', '@auth'] });
+ *
+ * @example
+ * scenario.skip('Fails on CI', async () => {
+ *   // This test will be skipped
+ * });
+ *
+ * @example
+ * scenario.only('Debugging this scenario', async () => {
+ *   // Only this test will run
+ * });
+ *
+ * @example
+ * scenario.todo('Implement forgot-password flow');
  */
-export declare const scenario: (description: string, fn: (context?: any) => Promise<void>, options?: any) => void;
+export declare const scenario: ScenarioFn;
+export {};

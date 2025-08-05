@@ -30,4 +30,18 @@ feature('Wikipedia search returns correct article', async () => {
             { tags: ['@search', '@wikipedia'] }
         );
     }
+
+    scenario.skip('Skipped test example', async () => {
+        await given(`the developer wants to skip a test`, async () => {
+        });
+
+        await when(`the developer does skip a test`, async () => {
+        });
+
+        await then(`the assertion is not executed`, async () => {
+            expect(false).toEqual(true);
+        });
+    });
+
+    scenario.todo('Todo test example');
 });
