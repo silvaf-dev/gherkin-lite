@@ -93,6 +93,7 @@ for (const { a, b, expected } of examples) {
 ```bash
 npm install
 npm run build
+npm test
 ```
 
 ## 🤔 Why I Built This
