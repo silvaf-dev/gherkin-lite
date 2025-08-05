@@ -73,7 +73,7 @@ for (const { a, b, expected } of examples) {
 }
 ```
 
-***📦 Sharing context between steps**
+**📦 Sharing context between steps**
 To persist data between `given`, `when`, and `then` steps inside a `scenario`, use a plain object as shared context.
 
 ```ts
