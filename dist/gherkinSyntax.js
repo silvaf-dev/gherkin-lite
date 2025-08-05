@@ -92,20 +92,53 @@ const feature = (description, fn) => {
     return test_1.test.describe(`Feature: ${description}`, fn);
 };
 exports.feature = feature;
+const makeScenario = (modifier) => {
+    return (description, fnOrOptions, maybeOptions) => {
+        const isFn = typeof fnOrOptions === 'function';
+        const fn = isFn ? fnOrOptions : undefined;
+        const options = isFn ? maybeOptions : fnOrOptions;
+        const tagString = options?.tags ? ` - Tags: ${options.tags.join(' ')}` : '';
+        const title = `Scenario: ${description}${tagString}`;
+        if (modifier === 'skip')
+            return test_1.test.skip(`[SKIPPED] ${title}`, fn);
+        if (modifier === 'only')
+            return test_1.test.only(`[ONLY] ${title}`, fn);
+        if (modifier === 'todo')
+            return (0, test_1.test)(`[TODO] ${title}`, async () => {
+                test_1.test.fixme(true, 'Test not implemented yet');
+            });
+        return (0, test_1.test)(title, fn);
+    };
+};
+const baseScenario = makeScenario();
+baseScenario.skip = makeScenario('skip');
+baseScenario.only = makeScenario('only');
+baseScenario.todo = makeScenario('todo');
 /**
- * Defines a BDD-style "Scenario" test with optional tags.
+ * Defines a BDD-style **Scenario** within a `feature()` block.
+ *
+ * Wraps Playwright's `test()` with Gherkin-style readability and optional tags.
  *
  * @param description - A descriptive title for the scenario.
- * @param fn - The async test function, optionally receiving the Playwright context.
- * @param options - Optional config like `tags` (array of strings).
+ * @param fn - The async test function. Receives Playwright context (`{ page, browser, context }`).
+ * @param options - Optional scenario options like `tags`.
  *
  * @example
  * scenario('User logs in', async ({ page }) => {
  *   await page.goto('/login');
  * }, { tags: ['@smoke', '@auth'] });
+ *
+ * @example
+ * scenario.skip('Fails on CI', async () => {
+ *   // This test will be skipped
+ * });
+ *
+ * @example
+ * scenario.only('Debugging this scenario', async () => {
+ *   // Only this test will run
+ * });
+ *
+ * @example
+ * scenario.todo('Implement forgot-password flow');
  */
-const scenario = (description, fn, options) => {
-    const tagString = options ? ` - Tags: ${options?.tags?.join(' ')}` : '';
-    return (0, test_1.test)(`Scenario: ${description}${tagString}`, fn);
-};
-exports.scenario = scenario;
+exports.scenario = baseScenario;

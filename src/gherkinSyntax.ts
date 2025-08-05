@@ -90,23 +90,71 @@ export const feature = (description: string, fn: () => void) => {
   return test.describe(`Feature: ${description}`, fn);
 };
 
+type ScenarioCallback = (context?: any) => Promise<void>;
+
+type ScenarioOptions = {
+  tags?: string[];
+};
+
+type ScenarioFn = {
+  (description: string, fn: ScenarioCallback, options?: ScenarioOptions): void;
+  skip: (description: string, fn: ScenarioCallback, options?: ScenarioOptions) => void;
+  only: (description: string, fn: ScenarioCallback, options?: ScenarioOptions) => void;
+  todo: (description: string) => void;
+};
+
+const makeScenario = (modifier?: 'skip' | 'only' | 'todo') => {
+  return (
+    description: string,
+    fnOrOptions?: ScenarioCallback | ScenarioOptions,
+    maybeOptions?: ScenarioOptions
+  ) => {
+    const isFn = typeof fnOrOptions === 'function';
+    const fn = isFn ? fnOrOptions as ScenarioCallback : undefined;
+    const options = isFn ? maybeOptions : fnOrOptions as ScenarioOptions;
+    const tagString = options?.tags ? ` - Tags: ${options.tags.join(' ')}` : '';
+    const title = `Scenario: ${description}${tagString}`;
+
+    if (modifier === 'skip') return test.skip(`[SKIPPED] ${title}`, fn!);
+    if (modifier === 'only') return test.only(`[ONLY] ${title}`, fn!);
+    if (modifier === 'todo') return test(`[TODO] ${title}`, async () => {
+      test.fixme(true, 'Test not implemented yet');
+    });
+    return test(title, fn!);
+  };
+}
+
+const baseScenario = makeScenario() as ScenarioFn;
+
+baseScenario.skip = makeScenario('skip');
+baseScenario.only = makeScenario('only');
+baseScenario.todo = makeScenario('todo');
+
 /**
- * Defines a BDD-style "Scenario" test with optional tags.
+ * Defines a BDD-style **Scenario** within a `feature()` block.
+ *
+ * Wraps Playwright's `test()` with Gherkin-style readability and optional tags.
  *
  * @param description - A descriptive title for the scenario.
- * @param fn - The async test function, optionally receiving the Playwright context.
- * @param options - Optional config like `tags` (array of strings).
+ * @param fn - The async test function. Receives Playwright context (`{ page, browser, context }`).
+ * @param options - Optional scenario options like `tags`.
  *
  * @example
  * scenario('User logs in', async ({ page }) => {
  *   await page.goto('/login');
  * }, { tags: ['@smoke', '@auth'] });
+ *
+ * @example
+ * scenario.skip('Fails on CI', async () => {
+ *   // This test will be skipped
+ * });
+ *
+ * @example
+ * scenario.only('Debugging this scenario', async () => {
+ *   // Only this test will run
+ * });
+ *
+ * @example
+ * scenario.todo('Implement forgot-password flow');
  */
-export const scenario = (
-  description: string,
-  fn: (context?: any) => Promise<void>,
-  options?: any
-) => {
-  const tagString = options ? ` - Tags: ${options?.tags?.join(' ')}` : '';
-  return test(`Scenario: ${description}${tagString}`, fn);
-};
+export const scenario = baseScenario;
