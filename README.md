@@ -97,20 +97,19 @@ scenario('adding two numbers with context', async ({ }) => {
 });
 ```
 
-## 🧱 API Reference
-
-| Function                                   | Description                                                        |
-|--------------------------------------------|--------------------------------------------------------------------|
-| `given(description, fn)`                   | Marks a "Given" step in the test                                   |
-| `when(description, fn)`                    | Marks a "When" step                                                |
-| `then(description, fn)`                    | Marks a "Then" step                                                |
-| `and(description, fn)`                     | Optional continuation step                                         |
-| `but(description, fn)`                     | Optional exception step                                            |
-| `feature(description, fn)`                 | Defines a group of related scenarios (a "Feature")                 |
-| `scenario(description, fn, options?)`      | Defines an individual test scenario                                |
-| `scenario.skip(description, fn, options?)` | Skips the scenario (e.g., if it's not relevant in some contexts)  |
-| `scenario.only(description, fn, options?)` | Runs only this scenario (useful for debugging)                    |
-| `scenario.todo(description)`              | Declares a scenario that hasn't been implemented yet              |
+| Function                                   | Description                                                                 |
+|--------------------------------------------|-----------------------------------------------------------------------------|
+| `given(description, fn)`                   | Marks a "Given" step in the test                                            |
+| `when(description, fn)`                    | Marks a "When" step                                                         |
+| `then(description, fn)`                    | Marks a "Then" step                                                         |
+| `and(description, fn)`                     | Optional continuation step                                                  |
+| `but(description, fn)`                     | Optional exception step                                                     |
+| `feature(description, fn)`                 | Defines a group of related scenarios (a "Feature")                          |
+| `scenario(description, fn, options?)`      | Defines an individual test scenario                                         |
+| `scenario.skip(description, fn, options?)` | Skips the scenario (e.g., if it's not relevant in some contexts)           |
+| `scenario.only(description, fn, options?)` | Runs only this scenario (useful for debugging)                             |
+| `scenario.todo(description)`              | Declares a scenario that hasn't been implemented yet                       |
+| `step(description, fn)`                    | Declares a named sub-step inside `given/when/then`. Helps show inner actions and assertions in the test report |
 
 ## 🛠 Development
 

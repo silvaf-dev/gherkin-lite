@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { given, when, then, feature, scenario } from '../dist/gherkinSyntax.js';
+import { given, when, then, feature, scenario, step } from '../dist/gherkinSyntax.js';
 
 feature('Wikipedia search returns correct article', async () => {
     const examples = [
@@ -12,15 +12,25 @@ feature('Wikipedia search returns correct article', async () => {
             `search term "${term}" yields expected article`,
             async ({ page, context, browser }) => {
                 await given('a fresh browser context and a page are available', async () => {
-                    expect(browser).toBeDefined();
-                    expect(context).toBeDefined();
-                    expect(page).toBeDefined();
+                    await step('Check browser, context and page are defined', async () => {
+                        expect(browser).toBeDefined();
+                        expect(context).toBeDefined();
+                        expect(page).toBeDefined();
+                    });
                 });
 
                 await when(`the user navigates to Wikipedia and searches for "${term}"`, async () => {
-                    await page.goto('https://en.wikipedia.org');
-                    await page.getByPlaceholder('Search Wikipedia').first().fill(term);
+                    await step('Go to Wikipedia', async () => {
+                        await page.goto('https://en.wikipedia.org');
+                    });
+                    
+                    await step('Search Wikipedia', async () => {
+                        await page.getByPlaceholder('Search Wikipedia').first().fill(term);
+                    });
+                    
+                    await step('Click on the "Search" button', async () => {
                     await page.getByRole('button', { name: 'Search' }).click();
+                    });
                 });
 
                 await then(`the user is taken to ${expectedPath}`, async () => {
@@ -43,5 +53,5 @@ feature('Wikipedia search returns correct article', async () => {
         });
     });
 
-    scenario.todo('Todo test example'); 
+    scenario.todo('Todo test example');
 });
