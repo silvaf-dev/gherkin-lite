@@ -158,3 +158,17 @@ baseScenario.todo = makeScenario('todo');
  * scenario.todo('Implement forgot-password flow');
  */
 export const scenario = baseScenario;
+
+/**
+ * Creates a named substep in the Playwright report.
+ * Use this command to make inner statements visible on the report.
+ *
+ * @example
+ * await step('fill login form', async () => {
+ *   await page.fill('#username', 'admin');
+ *   await page.fill('#password', 'admin');
+ * });
+ */
+export const step = async (description: string, fn: () => Promise<void>) => {
+  return await test.step(description, fn);
+};

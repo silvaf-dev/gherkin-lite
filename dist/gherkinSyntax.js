@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.scenario = exports.feature = exports.but = exports.and = exports.then = exports.when = exports.given = void 0;
+exports.step = exports.scenario = exports.feature = exports.but = exports.and = exports.then = exports.when = exports.given = void 0;
 const test_1 = require("@playwright/test");
 /**
  * Defines a "Given" step in a BDD-style test.
@@ -142,3 +142,17 @@ baseScenario.todo = makeScenario('todo');
  * scenario.todo('Implement forgot-password flow');
  */
 exports.scenario = baseScenario;
+/**
+ * Creates a named substep in the Playwright report.
+ * Use this command to make inner statements visible on the report.
+ *
+ * @example
+ * await step('fill login form', async () => {
+ *   await page.fill('#username', 'admin');
+ *   await page.fill('#password', 'admin');
+ * });
+ */
+const step = async (description, fn) => {
+    return await test_1.test.step(description, fn);
+};
+exports.step = step;
