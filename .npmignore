@@ -12,3 +12,5 @@ playwright-report
 docs
 tsconfig.json
 playwright.config.ts
+.vscode
+*.log
