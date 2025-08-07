@@ -10,3 +10,5 @@ e2e
 img
 playwright-report
 docs
+tsconfig.json
+playwright.config.ts
