@@ -110,6 +110,10 @@ scenario('adding two numbers with context', async ({ }) => {
 | `scenario.only(description, fn, options?)` | Runs only this scenario (useful for debugging)                             |
 | `scenario.todo(description)`              | Declares a scenario that hasn't been implemented yet                       |
 | `step(description, fn)`                    | Declares a named sub-step inside `given/when/then`. Helps show inner actions and assertions in the test report |
+| `before(description, fn)`              | Declares a beforeEach hook                                                   |
+| `after(description, fn)`              | Declares a afterEach hook                                                     |
+| `beforeAll(description, fn)`              | Declares a beforeAll hook                                                   |
+| `afterAll(description, fn)`              | Declares a afterAll hook                                                     |
 
 ## 🛠 Development
 
