@@ -111,9 +111,9 @@ scenario('adding two numbers with context', async ({ }) => {
 | `scenario.todo(description)`              | Declares a scenario that hasn't been implemented yet                       |
 | `step(description, fn)`                    | Declares a named sub-step inside `given/when/then`. Helps show inner actions and assertions in the test report |
 | `before(description, fn)`              | Declares a beforeEach hook                                                   |
-| `after(description, fn)`              | Declares a afterEach hook                                                     |
+| `after(description, fn)`              | Declares an afterEach hook                                                     |
 | `beforeAll(description, fn)`              | Declares a beforeAll hook                                                   |
-| `afterAll(description, fn)`              | Declares a afterAll hook                                                     |
+| `afterAll(description, fn)`              | Declares an afterAll hook                                                     |
 
 ## 🛠 Development
 
