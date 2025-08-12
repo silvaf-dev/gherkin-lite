@@ -119,4 +119,63 @@ export declare const scenario: ScenarioFn;
  * });
  */
 export declare const step: (description: string, fn: () => Promise<void>) => Promise<void>;
+/**
+ * Defines a setup step to run **before each** scenario in a `feature()` block.
+ *
+ * Wraps Playwright's `beforeEach()` with a description for clearer reports.
+ *
+ * @param description - A descriptive label for the setup step.
+ * @param fn - The async function to run before each scenario.
+ *
+ * @example
+ * before('log in user', async ({ page }) => {
+ *   await page.goto('/login');
+ *   await page.fill('#username', 'admin');
+ *   await page.fill('#password', 'admin123');
+ *   await page.click('text=Login');
+ * });
+ */
+export declare const before: (description: string, fn: () => Promise<void>) => void;
+/**
+ * Defines a teardown step to run **after each** scenario in a `feature()` block.
+ *
+ * Wraps Playwright's `afterEach()` with a description for clearer reports.
+ *
+ * @param description - A descriptive label for the teardown step.
+ * @param fn - The async function to run after each scenario.
+ *
+ * @example
+ * after('clear session data', async ({ context }) => {
+ *   await context.clearCookies();
+ * });
+ */
+export declare const after: (description: string, fn: () => Promise<void>) => void;
+/**
+ * Defines a setup step to run **once before all** scenarios in a `feature()` block.
+ *
+ * Wraps Playwright's `beforeAll()` with a description for clearer reports.
+ *
+ * @param description - A descriptive label for the one-time setup.
+ * @param fn - The async function to run before all scenarios.
+ *
+ * @example
+ * beforeAll('start server', async () => {
+ *   await startTestServer();
+ * });
+ */
+export declare const beforeAll: (description: string, fn: () => Promise<void>) => void;
+/**
+ * Defines a teardown step to run **once after all** scenarios in a `feature()` block.
+ *
+ * Wraps Playwright's `afterAll()` with a description for clearer reports.
+ *
+ * @param description - A descriptive label for the one-time teardown.
+ * @param fn - The async function to run after all scenarios.
+ *
+ * @example
+ * afterAll('stop server', async () => {
+ *   await stopTestServer();
+ * });
+ */
+export declare const afterAll: (description: string, fn: () => Promise<void>) => void;
 export {};
