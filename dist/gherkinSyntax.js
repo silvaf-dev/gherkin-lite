@@ -1,7 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.step = exports.scenario = exports.feature = exports.but = exports.and = exports.then = exports.when = exports.given = void 0;
+exports.afterAll = exports.beforeAll = exports.after = exports.before = exports.step = exports.scenario = exports.feature = exports.but = exports.and = exports.then = exports.when = exports.given = void 0;
 const test_1 = require("@playwright/test");
+/**
+ * Whitespace normalization
+ * @param k key
+ * @param d description
+ * @returns string
+ */
+const label = (k, d) => `${k} ${d.trim()}`;
 /**
  * Defines a "Given" step in a BDD-style test.
  *
@@ -11,7 +18,7 @@ const test_1 = require("@playwright/test");
  * });
  */
 const given = (description, fn) => {
-    return test_1.test.step(`Given ${description}`, fn);
+    return test_1.test.step(label('Given', description), fn);
 };
 exports.given = given;
 /**
@@ -23,7 +30,7 @@ exports.given = given;
  * });
  */
 const when = (description, fn) => {
-    return test_1.test.step(`When ${description}`, fn);
+    return test_1.test.step(label('When', description), fn);
 };
 exports.when = when;
 /**
@@ -35,7 +42,7 @@ exports.when = when;
  * });
  */
 const then = (description, fn) => {
-    return test_1.test.step(`Then ${description}`, fn);
+    return test_1.test.step(label('Then', description), fn);
 };
 exports.then = then;
 /**
@@ -47,7 +54,7 @@ exports.then = then;
  * });
  */
 const and = (description, fn) => {
-    return test_1.test.step(`And ${description}`, fn);
+    return test_1.test.step(label('And', description), fn);
 };
 exports.and = and;
 /**
@@ -59,7 +66,7 @@ exports.and = and;
  * });
  */
 const but = (description, fn) => {
-    return test_1.test.step(`But ${description}`, fn);
+    return test_1.test.step(label('But', description), fn);
 };
 exports.but = but;
 /**
@@ -89,7 +96,7 @@ exports.but = but;
  * });
  */
 const feature = (description, fn) => {
-    return test_1.test.describe(`Feature: ${description}`, fn);
+    return test_1.test.describe(label('Feature :', `${description}`), fn);
 };
 exports.feature = feature;
 const makeScenario = (modifier) => {
@@ -98,7 +105,7 @@ const makeScenario = (modifier) => {
         const fn = isFn ? fnOrOptions : undefined;
         const options = isFn ? maybeOptions : fnOrOptions;
         const tagString = options?.tags ? ` - Tags: ${options.tags.join(' ')}` : '';
-        const title = `Scenario: ${description}${tagString}`;
+        const title = label('Scenario :', `${description}${tagString}`);
         if (modifier === 'skip')
             return test_1.test.skip(`[SKIPPED] ${title}`, fn);
         if (modifier === 'only')
@@ -156,3 +163,74 @@ const step = async (description, fn) => {
     return await test_1.test.step(description, fn);
 };
 exports.step = step;
+/**
+ * Defines a setup step to run **before each** scenario in a `feature()` block.
+ *
+ * Wraps Playwright's `beforeEach()` with a description for clearer reports.
+ *
+ * @param description - A descriptive label for the setup step.
+ * @param fn - The async function to run before each scenario.
+ *
+ * @example
+ * before('log in user', async ({ page }) => {
+ *   await page.goto('/login');
+ *   await page.fill('#username', 'admin');
+ *   await page.fill('#password', 'admin123');
+ *   await page.click('text=Login');
+ * });
+ */
+const before = (description, fn) => {
+    return test_1.test.beforeEach(description, fn);
+};
+exports.before = before;
+/**
+ * Defines a teardown step to run **after each** scenario in a `feature()` block.
+ *
+ * Wraps Playwright's `afterEach()` with a description for clearer reports.
+ *
+ * @param description - A descriptive label for the teardown step.
+ * @param fn - The async function to run after each scenario.
+ *
+ * @example
+ * after('clear session data', async ({ context }) => {
+ *   await context.clearCookies();
+ * });
+ */
+const after = (description, fn) => {
+    return test_1.test.afterEach(description, fn);
+};
+exports.after = after;
+/**
+ * Defines a setup step to run **once before all** scenarios in a `feature()` block.
+ *
+ * Wraps Playwright's `beforeAll()` with a description for clearer reports.
+ *
+ * @param description - A descriptive label for the one-time setup.
+ * @param fn - The async function to run before all scenarios.
+ *
+ * @example
+ * beforeAll('start server', async () => {
+ *   await startTestServer();
+ * });
+ */
+const beforeAll = (description, fn) => {
+    return test_1.test.beforeAll(description, fn);
+};
+exports.beforeAll = beforeAll;
+/**
+ * Defines a teardown step to run **once after all** scenarios in a `feature()` block.
+ *
+ * Wraps Playwright's `afterAll()` with a description for clearer reports.
+ *
+ * @param description - A descriptive label for the one-time teardown.
+ * @param fn - The async function to run after all scenarios.
+ *
+ * @example
+ * afterAll('stop server', async () => {
+ *   await stopTestServer();
+ * });
+ */
+const afterAll = (description, fn) => {
+    return test_1.test.afterAll(description, fn);
+};
+exports.afterAll = afterAll;

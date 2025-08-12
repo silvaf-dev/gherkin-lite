@@ -1,7 +1,23 @@
 import { expect } from '@playwright/test';
-import { given, when, then, feature, scenario, step } from '../dist/gherkinSyntax.js';
+import { given, when, then, and, but, feature, scenario, step, before, after, beforeAll, afterAll } from '../dist/gherkinSyntax.js';
 
 feature('Wikipedia search returns correct article', async () => {
+    before('Running beforeEach', async () => {
+        console.log('beforeEach');
+    });
+
+    beforeAll('Running beforeAll', async () => {
+        console.log('beforeAll');
+    });
+
+    after('Running afterEach', async () => {
+        console.log('afterEach');
+    });
+
+    afterAll('Running afterAll', async () => {
+        console.log('afterAll');
+    });
+
     const examples = [
         { term: 'Gherkin', expectedPath: '/wiki/Gherkin' },
         { term: 'Playwright', expectedPath: '/wiki/Playwright' }
@@ -18,6 +34,8 @@ feature('Wikipedia search returns correct article', async () => {
                         expect(page).toBeDefined();
                     });
                 });
+
+                await and('test and', async () => {});
 
                 await when(`the user navigates to Wikipedia and searches for "${term}"`, async () => {
                     await step('Go to Wikipedia', async () => {
@@ -36,6 +54,8 @@ feature('Wikipedia search returns correct article', async () => {
                 await then(`the user is taken to ${expectedPath}`, async () => {
                     await expect(page).toHaveURL('https://en.wikipedia.org' + expectedPath);
                 });
+
+                await but('test but', async () => {});
             },
             { tags: ['@search', '@wikipedia'] }
         );
